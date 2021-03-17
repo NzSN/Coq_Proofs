@@ -1,7 +1,0 @@
-DIGEST 397b089f129af95808ecf81f83470f4b
-Ftry
-prf 8:28 <> my_first_proof__again
-binder 40:40 <> A:1
-R51:54 Coq.Init.Logic <> ::type_scope:x_'->'_x not
-R50:50 try <> A:1 var
-R55:55 try <> A:1 var
