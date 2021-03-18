@@ -178,3 +178,71 @@ Proof.
       destruct H as [A B].
       case A.
 Qed.
+
+Theorem backward_small : (forall A B : Prop, A -> (A->B)->B).
+Proof.
+ intros A B.
+ intros proof_of_A A_implies_B.
+ refine (A_implies_B _).
+   exact proof_of_A.
+Qed.
+
+Theorem thm_true_imp_false : ~(True -> False).
+Proof.
+  intros T_implies_F.
+  refine (T_implies_F _).
+    exact I.
+Qed.
+
+Theorem negb_is_not : (forall a, Is_true (negb a) <-> (~(Is_true a))).
+Proof.
+  intros a.
+  unfold iff.
+  refine(conj _ _).
+    case a.
+      (* True *)
+      simpl.
+      intros proof_of_False.
+      case proof_of_False.
+      (* False *)
+      simpl.
+      intros proof_of_True.
+      unfold not.
+      intros proof_of_False.
+      case proof_of_False.
+    case a.
+      (* True *)
+      simpl.
+      unfold not.
+      intros T_implies_F.
+      refine(T_implies_F _).
+        exact I.
+      (* False *)
+      simpl.
+      unfold not.
+      intros F_implies_F.
+      exact I.
+Qed.
+
+
+(*
+Inductive ex (A:Type) (P:A -> Prop) : Prop :=
+  ex_intro : forall x:A, P x -> ex (A:=A) P.
+
+Notation "'exists' x .. y , p" := (ex (fun x => .. (ex (fun y => p)) ..))
+  (at level 200, x binder, right associativity,
+   format "'[' 'exists'  '/  ' x  ..  y ,  '/  ' p ']'")
+  : type_scope.
+*)
+
+Definition basic_predicate :=
+  (fun a => Is_true (andb a true)).
+
+Theorem thm_exists_basics : (ex basic_predicate).
+Proof.
+  pose (witness := true).
+  refine (ex_intro basic_predicate witness _).
+    simpl.
+    exact I.
+Qed.
+
