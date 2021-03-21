@@ -246,3 +246,186 @@ Proof.
     exact I.
 Qed.
 
+Theorem thm_forall_exists__again : (forall b, (exists a, Is_true(eqb a b))).
+Proof.
+  intros b.
+  refine(ex_intro _ b _).
+  exact (eqb_a_a b).
+Qed.
+
+Theorem forall_exists : (forall P : Set->Prop, (forall x, ~(P x)) -> ~(exists x, P x)).
+Proof.
+  intros P.
+  intros forall_x_not_Px.
+  unfold not.
+  intros exists_x_Px.
+  destruct exists_x_Px as [witness Px].
+  unfold not in forall_x_not_Px.
+  pose (not_Pwitness := forall_x_not_Px witness).
+  pose (proof_of_False := not_Pwitness Px).
+  case proof_of_False.
+Qed.
+
+Theorem exists_forall : (forall P : Set->Prop, ~(exists x, P x) -> (forall x, ~(P x))).
+Proof.
+  intros P.
+  intros not_exists_Px.
+  unfold not.
+  intros X.
+  intros Px.
+
+  unfold not in not_exists_Px.
+  refine (not_exists_Px _).
+    exact (ex_intro P X Px).
+Qed.
+
+Theorem thm_eq_sym : (forall x y : Set, x = y -> y = x).
+Proof.
+  intros x y.
+  intros x_y.
+  destruct x_y as [].
+  exact (eq_refl x).
+Qed.
+
+Theorem thm_eq_trans : (forall x y z: Set, x = y -> y = z -> x = z).
+Proof.
+  intros x y z.
+  intros x_y y_z.
+  destruct x_y as [].
+  destruct y_z as [].
+  exact (eq_refl x).
+Qed.
+
+Theorem thm_eq_trans__again : (forall x y z: Set, x = y -> y = z -> x = z).
+Proof.
+  intros x y z.
+  intros x_y y_z.
+  rewrite x_y.
+  rewrite <- y_z.
+  exact (eq_refl y).
+Qed.
+
+Theorem true_is_True: Is_true true.
+Proof.
+  simpl.
+  exact I.
+Qed.
+
+
+Theorem andb_sym : (forall a b, a && b = b && a).
+Proof.
+  intros a b.
+  case a, b.
+    (* T, T *)
+    simpl.
+    exact (eq_refl true).
+    (* T, F *)
+    simpl.
+    exact (eq_refl false).
+    (* F, T *)
+    simpl.
+    exact (eq_refl false).
+    (* F, F *)
+    simpl.
+    exact (eq_refl false).
+Qed.
+
+Theorem neq_nega: (forall a, a <> (negb a)).
+Proof.
+  intros a.
+  unfold not.
+  case a.
+    (* T *)
+    intros a_eq_neg_a.
+    simpl in a_eq_neg_a.
+    discriminate a_eq_neg_a.
+    (* F *)
+    intros f_eq_negb.
+    simpl in f_eq_negb.
+    discriminate f_eq_negb.
+Qed.
+
+Theorem plus_2_3 : (S (S O)) + (S (S (S O))) = (S (S (S (S (S O))))).
+Proof.
+  simpl.
+  exact (eq_refl 5).
+Qed.
+
+Theorem plus_O_n : (forall n, O + n = n).
+Proof.
+  intros n.
+  simpl.
+  exact(eq_refl n).
+Qed.
+
+Theorem plus_n_0 : (forall n, n + 0 = n).
+Proof.
+  intros n.
+  elim n.
+  simpl.
+  exact (eq_refl 0).
+
+  intros n'.
+  intros inductive_hypothesis.
+  simpl.
+  rewrite inductive_hypothesis.
+  exact (eq_refl (S n')).
+Qed.
+
+Theorem plus_n_0__again : (forall n, n + 0 = n).
+Proof.
+  intros n.
+  induction n as [| n' inductive_hypothesis].
+  simpl.
+  exact (eq_refl 0).
+
+  simpl.
+  rewrite inductive_hypothesis.
+  exact (eq_refl (S n')).
+Qed.
+
+Theorem or_commutes__again : (forall A B, A \/ B -> B \/ A).
+Proof.
+  intros A B.
+  intros A_or_B.
+  destruct A_or_B as [proof_of_A | proof_of_B].
+    (* or_intror proof_of_A *)
+    refine (or_intror _).
+      exact proof_of_A.
+
+    (* or_introl proof_of_B *)
+    refine (or_introl _).
+      exact proof_of_B.
+Qed.
+
+Theorem plus_sym: (forall n m, n + m = m + n).
+Proof.
+  intros n m.
+  elim n.
+    (* base case for n *)
+    elim m.
+      (* base case for m *)
+      exact (eq_refl (0+0)).
+      (* inductive case for m *)
+      intros m'.
+      simpl.
+      intros inductive_hyp_m.
+      rewrite <- inductive_hyp_m.
+      exact (eq_refl (S m')).
+    (* inductive case for n *)
+    intros n'.
+    intros inductive_hyp_n.
+    simpl.
+    rewrite inductive_hyp_n.
+    elim m.
+      (* base case for m *)
+      simpl.
+      exact (eq_refl (S n')).
+      (* inductive case for m *)
+      intros m'.
+      intros inductive_hyp_m.
+      simpl.
+      rewrite inductive_hyp_m.
+      exact (eq_refl (S (m' + (S n')))).
+Qed.
+
