@@ -142,8 +142,17 @@ Proof.
     reflexivity.
 Qed.
 
+Theorem negb_involutive: forall b : bool,
+    negb (negb b) = b.
+Proof.
+  intros b.
+  destruct b eqn:E.
 
+  - simpl.
+    reflexivity.
 
-
+  - simpl.
+    reflexivity.
+Qed.
 
 End Number.
