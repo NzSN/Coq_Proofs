@@ -1,4 +1,4 @@
-Module Number.
+Require Export Basics.
 
 Inductive nat: Type :=
   | O
@@ -130,8 +130,7 @@ Proof.
 Theorem plus_1_neq_0 : forall n : nat,
     (n + S O) =? O = false.
 Proof.
-  intros n.
-  destruct n as [| n'] eqn:E.
+  intros [|n].
 
   (* Case n = O *)
   - simpl.
@@ -147,12 +146,24 @@ Theorem negb_involutive: forall b : bool,
 Proof.
   intros b.
   destruct b eqn:E.
-
-  - simpl.
+  {
+    simpl.
     reflexivity.
-
-  - simpl.
+  }
+  {
+    simpl.
     reflexivity.
+  }
 Qed.
 
-End Number.
+Theorem andb_commutative'':
+  forall b c, andb b c = andb c b.
+Proof.
+  intros [] [].
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+  - reflexivity.
+Qed.
+
+(* Proof by Induction *)
