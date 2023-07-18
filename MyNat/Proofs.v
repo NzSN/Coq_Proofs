@@ -1,4 +1,4 @@
-Require Import MyNat.Basics.
+Require Export LF.MyNat.Basics.
 
 Theorem plus_id_example: forall n m:nat,
     n = m -> n + n = m + m.
@@ -103,3 +103,23 @@ Theorem plus_n_O: forall n:nat,
     n = n + O.
 Proof.
   intros.
+  induction n as [|n' An'].
+  - reflexivity.
+  - simpl.
+    rewrite <- An'.
+    reflexivity.
+Qed.
+
+Theorem minus_diag: forall n,
+    minus n n = O.
+Proof.
+  intros n.
+  induction n as [|n' An'].
+
+  - simpl.
+    reflexivity.
+
+  - simpl.
+    rewrite -> An'.
+    reflexivity.
+Qed.

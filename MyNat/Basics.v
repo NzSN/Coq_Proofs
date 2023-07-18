@@ -1,5 +1,3 @@
-Require Export Basics.
-
 Inductive nat: Type :=
   | O
   | S (n : nat).

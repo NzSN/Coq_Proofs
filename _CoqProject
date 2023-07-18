@@ -1,0 +1,3 @@
+-Q /home/nzsn/Codebases/Coq_Proofs LF
+./MyNat/Basics.v
+./MyNat/Proofs.v
