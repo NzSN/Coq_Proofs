@@ -99,5 +99,7 @@ Proof.
   - reflexivity.
 Qed.
 
-
-Compute (S O).
+Theorem plus_n_O: forall n:nat,
+    n = n + O.
+Proof.
+  intros.
