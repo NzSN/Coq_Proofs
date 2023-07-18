@@ -1,0 +1,8 @@
+.CoqMakefile.d
+nat/*.aux
+nat/*.d
+nat/*.glob
+nat/*.vo
+nat/*.vok
+nat/*.vos
+nat/makefile.conf
