@@ -15,6 +15,12 @@ Definition minustwo (n : nat) : nat :=
     | S (S n') => n'
    end.
 
+Definition negb (b:bool) : bool :=
+  match b with
+    | true => false
+    | false => true
+  end.
+
 Fixpoint evenb (n:nat) : bool :=
   match n with
     | O => true
